@@ -1,5 +1,5 @@
 import React from "react";
-
+import GoogleTranslate from './GoogleTranslate';
 import { ClerkProvider } from "@clerk/nextjs";
 
 // eslint-disable-next-line camelcase
@@ -48,7 +48,7 @@ export default function RootLayout({
             },
           }}
         >
-          <ThemeProvider>{children}</ThemeProvider>
+         <ThemeProvider>{children}<GoogleTranslate /></ThemeProvider>
         </ClerkProvider>
       </body>
     </html>
