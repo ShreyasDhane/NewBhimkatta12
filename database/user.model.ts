@@ -14,6 +14,9 @@ export interface IUser extends Document {
   saved: Schema.Types.ObjectId[];
   onboarded: boolean;
   joinedAt: Date;
+  connections: Schema.Types.ObjectId[];
+  connectionRequests: Schema.Types.ObjectId[];
+  connectionSent: Schema.Types.ObjectId[];
 }
 
 const UserSchema = new Schema({
@@ -30,6 +33,11 @@ const UserSchema = new Schema({
   saved: [{ type: Schema.Types.ObjectId, ref: "Question" }],
   onboarded: { type: Boolean, default: false },
   joinedAt: { type: Date, default: Date.now },
+  connections: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
+  connectionRequests: [
+    { type: Schema.Types.ObjectId, ref: "User", default: [] },
+  ],
+  connectionSent: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
 });
 
 const User = models.User || model("User", UserSchema);

@@ -1,18 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-
 import { SignedIn, auth } from "@clerk/nextjs";
-
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileLink from "@/components/shared/ProfileLink";
 import Stats from "@/components/shared/Stats";
 import AnswersTab from "@/components/shared/AnswersTab";
 import QuestionsTab from "@/components/shared/QuestionsTab";
-
 import { getUserInfo, getUserById } from "@/lib/actions/user.action";
 import { getFormattedJoinedDate } from "@/lib/utils";
-
 import type { URLProps } from "@/types";
 import type { Metadata } from "next";
 
@@ -49,7 +45,9 @@ const Page = async ({ params, searchParams }: URLProps) => {
             <p className="paragraph-regular text-dark200_light800">
               @{userInfo.user.username}
             </p>
-
+            <p className="paragraph-regular text-dark200_light800">
+              Connections: {userInfo.user.connections.length}
+            </p>
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
               {userInfo.user.portfolioWebsite && (
                 <ProfileLink
