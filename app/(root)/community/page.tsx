@@ -3,13 +3,13 @@ import NoResult from "@/components/shared/NoResult";
 import Pagination from "@/components/shared/Pagination";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
 import UserCard from "@/components/cards/UserCard";
-
-import { getAllUsers } from "@/lib/actions/user.action";
-
+import { getAllUsers, getUserById } from "@/lib/actions/user.action";
 import { UserFilters } from "@/constants/filters";
-
 import type { SearchParamsProps } from "@/types";
 import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+// import { useAuth } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: "Community — BhimKatta",
@@ -21,7 +21,8 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,
   });
-
+  const { userId: clerkId } = auth();
+  const currUser = await getUserById({ userId: clerkId! });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Users</h1>
@@ -39,12 +40,13 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
           filters={UserFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
         />
+        <Button>Requests</Button>
       </div>
 
       <section className="mt-12 flex flex-wrap gap-4">
         {result.users.length > 0 ? (
           result.users.map((user: any) => (
-            <UserCard key={user._id} user={user} />
+            <UserCard key={user.clerkId} user={user} currentUser={currUser} />
           ))
         ) : (
           <NoResult
